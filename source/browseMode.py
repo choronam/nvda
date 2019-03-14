@@ -1244,7 +1244,10 @@ class BrowseModeDocumentTreeInterceptor(documentBase.DocumentWithTableNavigation
 				return
 			if focusObj and not eventHandler.isPendingEvents("gainFocus") and focusObj!=self.rootNVDAObject and focusObj != api.getFocusObject() and self._shouldSetFocusToObj(focusObj):
 				focusObj.setFocus()
-			obj.scrollIntoView()
+			try:
+				info.scrollIntoView()
+			except NotImplementedError:
+				obj.scrollIntoView()
 			if self.programmaticScrollMayFireEvent:
 				self._lastProgrammaticScrollTime = time.time()
 		self.passThrough=self.shouldPassThrough(focusObj,reason=reason)
