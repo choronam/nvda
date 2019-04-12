@@ -61,6 +61,14 @@ class Gecko_ia2_TextInfo(VirtualBufferTextInfo):
 			)
 		except LookupError:
 			raise NotImplementedError
+		try:
+			rect = IA2TextTextInfo._getBoundingRectFromOffsetInObject(obj, relOffset)
+		except (LookupError, NotImplementedError):
+			# There is no rectangle available, so range is likely out of view.
+			pass
+		else:
+			if rect in self.obj.rootNVDAObject.location:
+				return
 		position = textInfos.offsets.Offsets(relOffset, relOffset)
 		obj.makeTextInfo(position).scrollIntoView(alignToTop)
 

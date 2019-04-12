@@ -1030,6 +1030,7 @@ class WordDocumentTextInfo(textInfos.TextInfo):
 		try:
 			startPoint = tempInfo.pointAtStart
 		except:
+			# There is no point at start available, so range is likely out of view.
 			pass
 		else:
 			if startPoint in self.obj.location:
@@ -1038,6 +1039,7 @@ class WordDocumentTextInfo(textInfos.TextInfo):
 			self.obj.WinwordWindowObject.ScrollIntoView(self._rangeObj, alignToTop)
 		except COMError:
 			log.debugWarning("Word ScrollIntoView failed", exc_info=True)
+			raise NotImplementedError
 
 	def updateCaret(self):
 		self.obj.WinwordWindowObject.ScrollIntoView(self._rangeObj)
